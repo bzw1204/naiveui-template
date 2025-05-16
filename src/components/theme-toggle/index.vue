@@ -70,7 +70,7 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
   transition: background 0.6s cubic-bezier(.4,0,.2,1);
 }
 .sun-anim {
-  animation: sun-appear 0.6s cubic-bezier(.4,0,.2,1);
+  animation: sun-appear 2s cubic-bezier(.4,0,.2,1);
 }
 @keyframes sun-appear {
   0% {
@@ -91,7 +91,7 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
 }
 
 .moon-anim {
-  animation: moon-appear 0.6s cubic-bezier(.4,0,.2,1);
+  animation: moon-appear 4s cubic-bezier(.4,0,.2,1);
 }
 @keyframes moon-appear {
   0% {
