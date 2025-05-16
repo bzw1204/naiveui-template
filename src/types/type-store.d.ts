@@ -7,9 +7,8 @@ declare module 'store-types' {
     showBreadcrumb: boolean
     showTabs: boolean
     menuWidth: number
-    theme: 'light' | 'dark'
+    isDark: boolean
     globalTheme: GlobalTheme | null
-    isLogin: boolean
     menus: MenuProps[]
   }
   interface IAuth {

@@ -1,13 +1,13 @@
 import presetRemToPx from '@unocss/preset-rem-to-px'
 import transformerDirectives from '@unocss/transformer-directives'
-import { defineConfig, presetAttributify, presetIcons, presetUno } from 'unocss'
+import { defineConfig, presetAttributify, presetIcons, presetWind3 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetRemToPx({
       baseFontSize: 4
     }),
-    presetUno(),
+    presetWind3(),
     presetIcons({
       autoInstall: true
     }),
@@ -34,7 +34,6 @@ export default defineConfig({
     'uno-autoborder-b': 'border-b-1 border-gray-2 dark-border-gray-7'
   },
   rules: [
-    [/^wh-(\d+)$/, ([,d]) => ({ width: `${d}px`, height: `${d}px` })],
-    ['login-bg', { 'background-image': `url('@/assets/images/bg.jpg')` }]
+    [/^wh-(\d+)$/, ([,d]) => ({ width: `${d}px`, height: `${d}px` })]
   ]
 })

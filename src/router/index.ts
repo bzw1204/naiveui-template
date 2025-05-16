@@ -6,7 +6,6 @@ import dynamicRoute from './dynamic-route'
 import staticRoute from './static-route'
 
 const dynamicRoutes = dynamicRoute()
-console.log('dynamicRoutes', dynamicRoutes)
 // 生成菜单并存储
 export const menus = generatorMenu(dynamicRoutes, '*')
 useLocalStorage('menus', menus)
@@ -16,7 +15,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/views/login/index.vue')
+      component: () => import('@/views/login/new-login.vue')
     },
     ...setupLayouts(dynamicRoutes),
     ...staticRoute

@@ -44,12 +44,12 @@ const contentClass = computed(() => {
     >
       <n-flex class="h-screen" vertical :size="0">
         <n-flex :wrap="false" inline class="box-border h-[var(--header-height)] p-10">
-          <img src="/logo.svg" alt="Logo" class="h-full">
+          <img src="@/assets/icons/logo-font.svg" alt="Logo" class="h-full">
           <div class="h-auto flex items-center text-nowrap text-18 font-bold">
             {{ projectName }}
           </div>
         </n-flex>
-        <n-scrollbar class="max-h-[var(--content-height)]">
+        <n-scrollbar class="h-[var(--content-height)] max-h-[var(--content-height)]">
           <TMenus />
         </n-scrollbar>
       </n-flex>

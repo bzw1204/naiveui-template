@@ -3,14 +3,13 @@ import type { Raw } from 'vue'
 import { RouteListener } from '@/utils'
 
 const active = ref('')
-const { theme } = storeToRefs(useSettingStore())
+const { isDark } = storeToRefs(useSettingStore())
 
 const tabsStyle = computed(() => {
-  const isDarkTheme = theme.value === 'dark'
   return {
     '--n-bezier': 'cubic-bezier(.4, 0, .2, 1)',
-    '--n-tabs-item-active-color': isDarkTheme ? '#23272e' : '#F5F5F7',
-    '--n-close-icon-color-hover': isDarkTheme
+    '--n-tabs-item-active-color': isDark.value ? '#23272e' : '#F5F5F7',
+    '--n-close-icon-color-hover': isDark.value
       ? 'rgba(102,102,102,1)'
       : 'rgba(255,255,255,0.52)'
   }

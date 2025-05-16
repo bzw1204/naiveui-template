@@ -5,21 +5,10 @@ import { TBreadcrumb } from '.'
 
 const { token } = storeToRefs(useAuthStore())
 const settingStore = useSettingStore()
-const { theme, showBreadcrumb } = storeToRefs(settingStore)
+const { showBreadcrumb } = storeToRefs(settingStore)
 const router = useRouter()
 const currentRoute = computed(() => router.currentRoute.value.path)
-
-const isDarkMode = computed({
-  get: () => theme.value === 'dark',
-  set: (_val) => { settingStore.toggleTheme() }
-})
-
 const themeToggleRef = ref<InstanceType<typeof ThemeToggleButton> | null>(null)
-
-// 通过store切换主题
-function toggleThemeViaStore() {
-  settingStore.toggleTheme()
-}
 
 function logout() {
   window.$dialog?.warning({
@@ -48,17 +37,13 @@ function logout() {
         <n-button type="primary" quaternary :focusable="false">
           大屏
         </n-button>
-        <ThemeToggleButton
-          ref="themeToggleRef"
-          v-model="isDarkMode"
-          @click="toggleThemeViaStore"
-        />
+        <ThemeToggleButton ref="themeToggleRef" />
         <!-- 用户信息 -->
         <x-n-dropdown trigger="click">
           <template #trigger>
             <n-avatar
               class="hover:cursor-pointer" object-fit="cover"
-              src="https://gd-hbimg.huaban.com/4cba8fd5b3f2df8490cc61de79bc9b7b858559541d8800-Zf830Y_fw658webp"
+              src="https://www.github.com/zyyv.png"
             />
           </template>
           <x-n-dropdown-item key="1">
