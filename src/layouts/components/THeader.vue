@@ -8,7 +8,6 @@ const settingStore = useSettingStore()
 const { showBreadcrumb } = storeToRefs(settingStore)
 const router = useRouter()
 const currentRoute = computed(() => router.currentRoute.value.path)
-const themeToggleRef = ref<InstanceType<typeof ThemeToggleButton> | null>(null)
 
 function logout() {
   window.$dialog?.warning({
@@ -37,14 +36,11 @@ function logout() {
         <n-button type="primary" quaternary :focusable="false">
           大屏
         </n-button>
-        <ThemeToggleButton ref="themeToggleRef" />
+        <ThemeToggleButton />
         <!-- 用户信息 -->
         <x-n-dropdown trigger="click">
           <template #trigger>
-            <n-avatar
-              class="hover:cursor-pointer" object-fit="cover"
-              src="https://www.github.com/zyyv.png"
-            />
+            <n-avatar class="hover:cursor-pointer" object-fit="cover" src="https://www.github.com/zyyv.png" />
           </template>
           <x-n-dropdown-item key="1">
             个人中心
