@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/views/login/new-login.vue')
+      component: () => import('@/views/login/index.vue')
     },
     ...setupLayouts(dynamicRoutes),
     ...staticRoute
