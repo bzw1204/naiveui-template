@@ -12,10 +12,10 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig } from 'vite'
+import { VueMcp } from 'vite-plugin-vue-mcp'
 // import VueDevTools from 'vite-plugin-vue-devtools'
 import MetaLayouts from 'vite-plugin-vue-meta-layouts'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
-
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -37,6 +37,9 @@ export default defineConfig({
   plugins: [
     Vue({
       include: [/\.vue$/, /\.md$/]
+    }),
+    VueMcp({
+      printUrl: false
     }),
     vueJsx(),
     Markdown({ }),
