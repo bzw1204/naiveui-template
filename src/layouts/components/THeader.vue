@@ -33,7 +33,7 @@ function logout() {
         <TBreadcrumb v-show="showBreadcrumb" />
       </div>
       <n-flex align="center">
-        <n-button type="primary" quaternary :focusable="false">
+        <n-button type="primary" quaternary :focusable="false" size="small">
           大屏
         </n-button>
         <ThemeToggleButton />

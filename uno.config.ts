@@ -1,3 +1,4 @@
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders'
 import presetRemToPx from '@unocss/preset-rem-to-px'
 import transformerDirectives from '@unocss/transformer-directives'
 import { defineConfig, presetAttributify, presetIcons, presetWind3 } from 'unocss'
@@ -9,7 +10,14 @@ export default defineConfig({
     }),
     presetWind3(),
     presetIcons({
-      autoInstall: true
+      extraProperties: {
+        display: 'inline-block',
+        width: '1em',
+        height: '1em'
+      },
+      collections: {
+        custom: FileSystemIconLoader('src/assets/icons', svg => svg.replace(/fill=".*"/, 'fill="currentColor"'))
+      }
     }),
     presetAttributify()
   ],

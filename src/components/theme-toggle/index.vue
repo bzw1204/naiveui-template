@@ -53,7 +53,7 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
       <span class="icon-wrapper" :class="{ dark: isDark, light: !isDark }">
         <span
           :class="[
-            `i-carbon-${isDark ? 'moon' : 'sun'}`,
+            `${isDark ? 'i-carbon-moon' : 'i-carbon-sun'}`,
             { 'sun-anim': !isDark, 'moon-anim': isDark },
           ]"
         />

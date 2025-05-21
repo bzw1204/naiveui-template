@@ -40,7 +40,7 @@ function handleLogin() {
 </script>
 
 <template>
-  <n-el class="wh-screen flex items-center justify-center bg-cover login-bg">
+  <n-el class="login-bg wh-screen flex items-center justify-center bg-cover">
     <n-flex class="m-auto h-500 w-900 shadow-lg" :wrap="false" :size="0">
       <!-- 左侧视觉区域 -->
       <n-flex vertical justify="center" align="center" class="relative box-border h-500 w-400 overflow-hidden from-[var(--info-color)] to-[var(--primary-color)] bg-gradient-to-br p-30 text-white">
@@ -48,7 +48,7 @@ function handleLogin() {
         <div class="absolute left-10 top-10 h-40 w-40 rounded-full bg-white opacity-20" />
         <div class="absolute bottom-10 right-10 h-60 w-60 rounded-full bg-white opacity-10" />
 
-        <img src="@/assets/icons/logo-font.svg" alt="Logo" class="mb-20 h-200 w-200">
+        <img src="@/assets/icons/logo.svg" alt="Logo" class="mb-20 h-200 w-200">
         <h1 class="mb-5 font-bold">
           健身普拉提管理系统
         </h1>

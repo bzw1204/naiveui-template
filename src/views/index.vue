@@ -1,4 +1,4 @@
-<script lang="ts">
+<script setup lang="ts">
 </script>
 
 <template>
@@ -44,32 +44,32 @@
     </n-button>
     <n-button strong secondary circle>
       <template #icon>
-        <n-icon><CashIcon /></n-icon>
+        <n-icon><span class="i-carbon:Account" /></n-icon>
       </template>
     </n-button>
     <n-button strong secondary circle type="primary">
       <template #icon>
-        <n-icon><CashIcon /></n-icon>
+        <n-icon><span class="i-carbon:Account" /></n-icon>
       </template>
     </n-button>
     <n-button strong secondary circle type="info">
       <template #icon>
-        <n-icon><CashIcon /></n-icon>
+        <n-icon><span class="i-carbon:Account" /></n-icon>
       </template>
     </n-button>
     <n-button strong secondary circle type="success">
       <template #icon>
-        <n-icon><CashIcon /></n-icon>
+        <n-icon><span class="i-carbon:Account" /></n-icon>
       </template>
     </n-button>
     <n-button strong secondary circle type="warning">
       <template #icon>
-        <n-icon><CashIcon /></n-icon>
+        <n-icon><span class="i-carbon:Account" /></n-icon>
       </template>
     </n-button>
     <n-button strong secondary circle type="error">
       <template #icon>
-        <n-icon><CashIcon /></n-icon>
+        <n-icon><span class="i-carbon:Account" /></n-icon>
       </template>
     </n-button>
   </n-space>

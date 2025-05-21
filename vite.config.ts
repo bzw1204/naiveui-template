@@ -50,7 +50,6 @@ export default defineConfig({
     Icons({
       autoInstall: false,
       customCollections: {
-        formula: FileSystemIconLoader('src/assets/icons/formula'),
         custom: FileSystemIconLoader('src/assets/icons')
       }
     }),
