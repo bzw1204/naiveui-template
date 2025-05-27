@@ -52,25 +52,25 @@ function handlerColorChange(color: IThemeColor) {
 </script>
 
 <template>
-  <n-drawer v-model:show="visible" :width="502" :show-mask="false" :auto-focus="false">
+  <n-drawer v-model:show="visible" :width="350" :show-mask="false" :auto-focus="false">
     <n-drawer-content title="主题设置" closable :native-scrollbar="false" footer-class="!py-8">
-      <n-flex vertical align="center">
-        <n-flex vertical>
+      <n-flex vertical align="center" class="w-full">
+        <n-flex vertical class="w-full">
           <n-divider dashed>
             导航模式
           </n-divider>
-          <n-tooltip v-for="item in layoutList" :key="item.value" trigger="hover">
-            <template #trigger>
-              <div
-                :class="layoutType === item.value ? `current-layout ${item.class}` : item.class"
-              >
-                <span class="i-carbon:CheckmarkOutline" />
-              </div>
-            </template>
-            <div>{{ item.label }}</div>
-          </n-tooltip>
+          <n-el class="w-full flex items-center justify-center gap-15">
+            <n-tooltip v-for="item in layoutList" :key="item.value" trigger="hover">
+              <template #trigger>
+                <div :class="layoutType === item.value ? `current-layout ${item.class}` : item.class">
+                  <span class="i-carbon:CheckmarkOutline layout-icon" />
+                </div>
+              </template>
+              <div>{{ item.label }}</div>
+            </n-tooltip>
+          </n-el>
         </n-flex>
-        <n-flex vertical>
+        <n-flex vertical align="center" class="w-full">
           <n-divider dashed>
             主题设置
           </n-divider>
@@ -79,6 +79,8 @@ function handlerColorChange(color: IThemeColor) {
             sucker-hide
             :colors-default="presetColors"
             :color="primaryColor"
+            class="w-full"
+            :size="300"
             @change-color="handlerColorChange"
           />
         </n-flex>
@@ -96,3 +98,105 @@ function handlerColorChange(color: IThemeColor) {
     </n-drawer-content>
   </n-drawer>
 </template>
+
+<style lang="scss" scoped>
+.layout-defaults,
+.layout-head,
+.layout-mixing {
+  width: 70px;
+  height: 50px;
+  overflow: hidden;
+  background: var(--card-color);
+  border-radius: var(--n-border-radius);
+  box-shadow: var(--box-shadow-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px 12px 0;
+  cursor: pointer;
+  position: relative;
+  transition: box-shadow 0.2s, border 0.2s, background 0.2s;
+  border: 2px solid transparent;
+
+  &:hover {
+    box-shadow: var(--box-shadow-1);
+    border: 2px solid var(--primary-color, var(--n-primary-color));
+    background: var(--n-color-hover, var(--card-color));
+  }
+
+  .layout-icon {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    color: var(--n-text-color-disabled);
+    transition: color 0.2s;
+  }
+}
+
+.current-layout {
+  border: 2px solid var(--primary-color, var(--n-primary-color));
+  box-shadow: var(--box-shadow-1);
+
+  .layout-icon {
+    color: var(--primary-color, var(--n-primary-color));
+  }
+}
+
+.layout-defaults {
+  &::before {
+    position: absolute;
+    left: 0;
+    width: 15px;
+    height: 100%;
+    content: "";
+    background: var(--inverted-color);
+    border-radius: var(--n-border-radius) 0 0 var(--n-border-radius);
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - 15px);
+    height: 15px;
+    content: "";
+    background: var(--placeholder-color);
+    border-radius: 0 var(--n-border-radius) 0 0;
+  }
+}
+
+.layout-head {
+  &::before {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 15px;
+    content: "";
+    background: var(--placeholder-color);
+    border-radius: var(--n-border-radius) var(--n-border-radius) 0 0;
+  }
+}
+
+.layout-mixing {
+  &::before {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 15px;
+    content: "";
+    background: var(--placeholder-color);
+    border-radius: var(--n-border-radius) var(--n-border-radius) 0 0;
+  }
+
+  &::after {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 15px;
+    height: calc(100% - 15px);
+    content: "";
+    background: var(--placeholder-color);
+    border-radius: 0 0 0 var(--n-border-radius);
+  }
+}
+</style>
