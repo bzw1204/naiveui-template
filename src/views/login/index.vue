@@ -31,7 +31,7 @@ function handleLogin() {
     set(authStore, 'token', 'fitness_app_token')
 
     // 跳转到仪表盘或重定向页面
-    const redirect = router.currentRoute.value.query.redirect as string || '/dashboard'
+    const redirect = router.currentRoute.value.query.redirect as string || '/'
     router.push({ path: redirect })
 
     loading.value = false

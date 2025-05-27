@@ -40,26 +40,31 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
 </script>
 
 <template>
-  <n-button
-    quaternary
-    :circle="!normal"
-    :size="size"
-    :focusable="false"
-    class="theme-toggle-btn"
-    :title="isDark ? '切换到亮色模式' : '切换到暗色模式'"
-    @click="toggleDark"
-  >
-    <template #icon>
-      <span class="icon-wrapper" :class="{ dark: isDark, light: !isDark }">
-        <span
-          :class="[
-            `${isDark ? 'i-carbon-moon' : 'i-carbon-sun'}`,
-            { 'sun-anim': !isDark, 'moon-anim': isDark },
-          ]"
-        />
-      </span>
+  <n-tooltip trigger="hover">
+    <template #trigger>
+      <n-button
+        quaternary
+        :circle="!normal"
+        :size="size"
+        :focusable="false"
+        class="theme-toggle-btn"
+        :title="isDark ? '切换到亮色模式' : '切换到暗色模式'"
+        @click="toggleDark"
+      >
+        <template #icon>
+          <span class="icon-wrapper" :class="{ dark: isDark, light: !isDark }">
+            <span
+              :class="[
+                `${isDark ? 'i-carbon-moon' : 'i-carbon-sun'}`,
+                { 'sun-anim': !isDark, 'moon-anim': isDark },
+              ]"
+            />
+          </span>
+        </template>
+      </n-button>
     </template>
-  </n-button>
+    {{ isDark ? '切换到亮色模式' : '切换到暗色模式' }}
+  </n-tooltip>
 </template>
 
 <style scoped>

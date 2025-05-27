@@ -94,6 +94,7 @@ declare global {
   const useSlots: typeof import('vue')['useSlots']
   const useStorage: typeof import('@vueuse/core')['useStorage']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
+  const useThemeStore: typeof import('../store/index')['useThemeStore']
   const useToggle: typeof import('@vueuse/core')['useToggle']
   const useVModel: typeof import('@vueuse/core')['useVModel']
   const useVModels: typeof import('@vueuse/core')['useVModels']

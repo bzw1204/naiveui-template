@@ -23,7 +23,7 @@ export default defineConfig({
   ],
   theme: {
     colors: {
-      primary: '#18a058'
+      primary: 'var(--primary-color)'
     }
   },
   transformers: [

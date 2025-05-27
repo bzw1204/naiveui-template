@@ -16,4 +16,9 @@ declare module 'store-types' {
     permissions: string[]
     useInfo?: Record<string, any>
   }
+  type LayoutType = 'layoutDefaults' | 'layoutHead' | 'layoutMixing'
+  interface ITheme {
+    layoutType: LayoutType
+    primaryColor: string
+  }
 }

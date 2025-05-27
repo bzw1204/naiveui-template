@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import type { GlobalThemeOverrides } from 'naive-ui'
 import { RouteListener } from '@/utils/route'
 import { set } from '@vueuse/core'
 import { darkTheme } from 'naive-ui'
+import { useThemeStore } from './store'
 
 const { isDark, name } = storeToRefs(useSettingStore())
+const { primaryColor } = storeToRefs(useThemeStore())
 const title = ref(name.value)
 useHead({ title: () => title.value })
-
+const themes = computed<GlobalThemeOverrides>(() => ({
+  common: {
+    primaryColor: primaryColor.value
+  }
+}))
 onMounted(() => {
   RouteListener.on((currentRoute) => {
     // 更新标题为当前路由的标题
@@ -23,7 +30,7 @@ onUnmounted(() => {
 
 <template>
   <!-- 调整 naive-ui 的字重配置 -->
-  <n-config-provider :theme="isDark ? darkTheme : null">
+  <n-config-provider :theme="isDark ? darkTheme : null" :theme-overrides="themes">
     <naive-provider>
       <router-view />
     </naive-provider>

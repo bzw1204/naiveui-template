@@ -2,13 +2,16 @@
 import ThemeToggleButton from '@/components/theme-toggle/index.vue'
 import { cleanseRedirect } from '@/utils'
 import { TBreadcrumb } from '.'
+import SystemSettings from './system-settings/index.vue'
+import ThemeSettings from './theme-settings/index.vue'
 
 const { token } = storeToRefs(useAuthStore())
 const settingStore = useSettingStore()
 const { showBreadcrumb } = storeToRefs(settingStore)
 const router = useRouter()
 const currentRoute = computed(() => router.currentRoute.value.path)
-
+const showSettings = ref(false)
+const showColorSetting = ref(false)
 function logout() {
   window.$dialog?.warning({
     title: '退出登录',
@@ -36,7 +39,31 @@ function logout() {
         <n-button type="primary" quaternary :focusable="false" size="small">
           大屏
         </n-button>
+        <!-- 系统设置 -->
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button quaternary type="default" :focusable="false" size="small" @click="() => showSettings = !showSettings">
+              <template #icon>
+                <div class="i-carbon:Settings" />
+              </template>
+            </n-button>
+          </template>
+          系统设置
+        </n-tooltip>
+        <!-- 主题模式 -->
         <ThemeToggleButton />
+        <!-- 主题设置 -->
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button quaternary type="default" :focusable="false" size="small" @click="() => showColorSetting = !showColorSetting">
+              <template #icon>
+                <div class="i-carbon:ColorPalette" />
+              </template>
+            </n-button>
+          </template>
+          主题设置
+        </n-tooltip>
+
         <!-- 用户信息 -->
         <x-n-dropdown trigger="click">
           <template #trigger>
@@ -56,4 +83,6 @@ function logout() {
       </n-flex>
     </n-flex>
   </n-layout-header>
+  <SystemSettings v-model="showSettings" />
+  <ThemeSettings v-model="showColorSetting" />
 </template>

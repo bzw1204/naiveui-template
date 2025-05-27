@@ -23,6 +23,22 @@ export default antfu({
     // 仅单行if允许不使用大括号
     'curly': ['error', 'multi-line'],
     // 允许使用 console.warn 和 console.error，但使用 console.log 警告
-    'no-console': ['warn', { allow: ['warn', 'error', 'table', 'group', 'log'] }]
+    'no-console': ['warn', { allow: ['warn', 'error', 'table', 'group', 'log'] }],
+    // 强制每个属性独占一行（推荐）
+    'vue/max-attributes-per-line': [
+      'error',
+      {
+        singleline: 5, // 单行最多1个属性
+        multiline: 1 // 多行每行1个属性
+      }
+    ],
+    // 可选：强制标签自闭合
+    'vue/html-closing-bracket-newline': [
+      'error',
+      {
+        singleline: 'never',
+        multiline: 'always'
+      }
+    ]
   }
 })
