@@ -1,13 +1,11 @@
 <script setup lang="ts" name="ThemeSettings">
 import type { IThemeColor } from 'color-kit'
-import { useThemeStore } from '@/store'
 import { set, useCssVar } from '@vueuse/core'
 import { ColorPicker } from 'vue-color-kit'
 import 'vue-color-kit/dist/vue-color-kit.css'
 
 const visible = defineModel<boolean>()
-const { isDark } = storeToRefs(useSettingStore())
-const { layoutType, primaryColor } = storeToRefs(useThemeStore())
+const { isDark, layoutType, primaryColor } = storeToRefs(useSettingStore())
 const layoutList = reactive({
   layoutDefaults: {
     value: 'layoutDefaults',
@@ -52,7 +50,13 @@ function handlerColorChange(color: IThemeColor) {
 </script>
 
 <template>
-  <n-drawer v-model:show="visible" :width="350" :show-mask="false" :auto-focus="false">
+  <n-drawer
+    v-model:show="visible"
+    :width="350"
+    :show-mask="false"
+    :auto-focus="false"
+    :mask-closable="false"
+  >
     <n-drawer-content title="主题设置" closable :native-scrollbar="false" footer-class="!py-8">
       <n-flex vertical align="center" class="w-full">
         <n-flex vertical class="w-full">

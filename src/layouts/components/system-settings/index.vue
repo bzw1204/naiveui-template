@@ -3,9 +3,24 @@ const visible = defineModel<boolean>()
 </script>
 
 <template>
-  <n-drawer v-model:show="visible" :width="502" :auto-focus="false">
+  <n-drawer
+    v-model:show="visible"
+    :width="350"
+    :show-mask="false"
+    :auto-focus="false"
+    :mask-closable="false"
+  >
     <n-drawer-content title="系统设置" closable :native-scrollbar="false" footer-class="!py-8">
-      《斯通纳》是美国作家约翰·威廉姆斯在 1965 年出版的小说。
+      <n-flex class="w-full" align="center" vertical>
+        <n-grid x-gap="12" :cols="2" class="w-full">
+          <n-gi>
+            菜单折叠
+          </n-gi>
+          <n-gi>
+            <n-switch />
+          </n-gi>
+        </n-grid>
+      </n-flex>
       <template #footer>
         <n-flex>
           <n-button size="small" @click="() => visible = !visible">

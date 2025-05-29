@@ -8,7 +8,9 @@ export default defineStore('settings', {
     globalTheme: null,
     menus: [],
     showBreadcrumb: true,
-    showTabs: false
+    showTabs: false,
+    layoutType: 'layoutDefaults',
+    primaryColor: '#FF0000'
   }),
   persist: true,
   actions: {

@@ -28,7 +28,7 @@ export default antfu({
     'vue/max-attributes-per-line': [
       'error',
       {
-        singleline: 5, // 单行最多1个属性
+        singleline: 4, // 单行最多1个属性
         multiline: 1 // 多行每行1个属性
       }
     ],

@@ -3,10 +3,8 @@ import type { GlobalThemeOverrides } from 'naive-ui'
 import { RouteListener } from '@/utils/route'
 import { set } from '@vueuse/core'
 import { darkTheme } from 'naive-ui'
-import { useThemeStore } from './store'
 
-const { isDark, name } = storeToRefs(useSettingStore())
-const { primaryColor } = storeToRefs(useThemeStore())
+const { isDark, name, primaryColor } = storeToRefs(useSettingStore())
 const title = ref(name.value)
 useHead({ title: () => title.value })
 const themes = computed<GlobalThemeOverrides>(() => ({
