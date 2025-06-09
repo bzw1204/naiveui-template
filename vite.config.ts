@@ -5,9 +5,9 @@ import Vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+// import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
+// import Icons from 'unplugin-icons/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
@@ -47,12 +47,12 @@ export default defineConfig({
     // VueDevTools(),
     VueSetupExtend(),
     UnoCSS(),
-    Icons({
-      autoInstall: false,
-      customCollections: {
-        custom: FileSystemIconLoader('src/assets/icons')
-      }
-    }),
+    // Icons({
+    //   autoInstall: false,
+    //   customCollections: {
+    //     custom: FileSystemIconLoader('src/assets/icons')
+    //   }
+    // }),
     AutoImport({
       imports: [
         'vue',

@@ -42,7 +42,13 @@ function logout() {
         <!-- 系统设置 -->
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button quaternary type="default" :focusable="false" size="small" @click="() => showSettings = !showSettings">
+            <n-button
+              quaternary
+              type="default"
+              :focusable="false"
+              size="small"
+              @click="() => showSettings = !showSettings"
+            >
               <template #icon>
                 <div class="i-carbon:Settings" />
               </template>
@@ -55,7 +61,13 @@ function logout() {
         <!-- 主题设置 -->
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button quaternary type="default" :focusable="false" size="small" @click="() => showColorSetting = !showColorSetting">
+            <n-button
+              quaternary
+              type="default"
+              :focusable="false"
+              size="small"
+              @click="() => showColorSetting = !showColorSetting"
+            >
               <template #icon>
                 <div class="i-carbon:ColorPalette" />
               </template>
@@ -69,7 +81,7 @@ function logout() {
           <template #trigger>
             <n-avatar class="hover:cursor-pointer" object-fit="cover" src="https://www.github.com/zyyv.png" />
           </template>
-          <x-n-dropdown-item key="1">
+          <x-n-dropdown-item key="1" @click="() => router.push('/user')">
             个人中心
           </x-n-dropdown-item>
           <x-n-dropdown-item key="2">

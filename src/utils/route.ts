@@ -52,7 +52,7 @@ export function generatorMenu(routerMap: RouteRecordRaw[], ...permissionList: st
   const permissionRoutes: MenuProps[] = recursion(sortRoute)
   function recursion(routes: RouteRecordRaw[]): MenuProps[] {
     const menus: MenuProps[] = []
-    routes.forEach((x) => {
+    routes.filter(x => !x.meta?.hidden).forEach((x) => {
       const _permissions: string[] = (x.meta?.permissions as string[]) || []
       const linkTarget = x.meta?.routeType === 'iframe' ? 'viewFrame' : '_blank'
       const link = typeof x.meta?.link === 'string' ? { href: x.meta?.link, target: linkTarget } as LinkProps : x.meta?.link as LinkProps
