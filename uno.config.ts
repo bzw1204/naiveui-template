@@ -10,6 +10,7 @@ export default defineConfig({
     }),
     presetWind3(),
     presetIcons({
+      autoInstall: true,
       extraProperties: {
         display: 'inline-block',
         width: '1em',
