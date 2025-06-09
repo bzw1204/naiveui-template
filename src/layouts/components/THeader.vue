@@ -36,26 +36,6 @@ function logout() {
         <TBreadcrumb v-show="showBreadcrumb" />
       </div>
       <n-flex align="center">
-        <n-button type="primary" quaternary :focusable="false" size="small">
-          大屏
-        </n-button>
-        <!-- 系统设置 -->
-        <n-tooltip trigger="hover">
-          <template #trigger>
-            <n-button
-              quaternary
-              type="default"
-              :focusable="false"
-              size="small"
-              @click="() => showSettings = !showSettings"
-            >
-              <template #icon>
-                <div class="i-carbon:Settings" />
-              </template>
-            </n-button>
-          </template>
-          系统设置
-        </n-tooltip>
         <!-- 主题模式 -->
         <ThemeToggleButton />
         <!-- 主题设置 -->
@@ -75,7 +55,23 @@ function logout() {
           </template>
           主题设置
         </n-tooltip>
-
+        <!-- 系统设置 -->
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button
+              quaternary
+              type="default"
+              :focusable="false"
+              size="small"
+              @click="() => showSettings = !showSettings"
+            >
+              <template #icon>
+                <div class="i-carbon:Settings" />
+              </template>
+            </n-button>
+          </template>
+          系统设置
+        </n-tooltip>
         <!-- 用户信息 -->
         <x-n-dropdown trigger="click">
           <template #trigger>

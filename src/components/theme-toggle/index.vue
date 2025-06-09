@@ -44,7 +44,7 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
     <template #trigger>
       <n-button
         quaternary
-        :circle="!normal"
+        :circle="normal"
         :size="size"
         :focusable="false"
         class="theme-toggle-btn"
