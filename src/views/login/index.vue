@@ -31,7 +31,7 @@ function handleLogin() {
     set(authStore, 'token', 'fitness_app_token')
 
     // 跳转到仪表盘或重定向页面
-    const redirect = router.currentRoute.value.query.redirect as string || '/'
+    const redirect = router.currentRoute.value.query.redirect as string || '/dashboard'
     router.push({ path: redirect })
 
     loading.value = false
@@ -69,7 +69,13 @@ function handleLogin() {
           </n-form-item>
 
           <n-form-item path="password" label="密码" label-placement="left">
-            <n-input v-model:value="loginForm.password" type="password" placeholder="请输入密码" size="large" @keyup.enter="handleLogin">
+            <n-input
+              v-model:value="loginForm.password"
+              type="password"
+              placeholder="请输入密码"
+              size="large"
+              @keyup.enter="handleLogin"
+            >
               <template #prefix>
                 <n-icon>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -89,7 +95,13 @@ function handleLogin() {
             </n-a>
           </n-flex>
 
-          <n-button type="primary" block size="large" :loading="loading" @click="handleLogin">
+          <n-button
+            type="primary"
+            block
+            size="large"
+            :loading="loading"
+            @click="handleLogin"
+          >
             登录
           </n-button>
         </n-form>

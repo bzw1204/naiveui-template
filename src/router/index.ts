@@ -1,13 +1,23 @@
+import type { RouteRecordRaw } from 'vue-router'
+// import { setupLayouts } from 'virtual:meta-layouts'
 import { cleanseRedirect, generatorMenu, RouteListener } from '@/utils/route'
 import { useLocalStorage } from '@vueuse/core'
-import { setupLayouts } from 'virtual:meta-layouts'
 import { createRouter, createWebHistory } from 'vue-router'
 import dynamicRoute from './dynamic-route'
 import staticRoute from './static-route'
 
+function setupLayouts(routes: RouteRecordRaw[]): RouteRecordRaw {
+  return {
+    path: '/',
+    component: () => import('@/layouts/default.vue'),
+    redirect: routes.filter(route => route.meta?.isHome)[0]?.path,
+    children: routes
+  }
+}
 const dynamicRoutes = dynamicRoute()
 // 生成菜单并存储
 export const menus = generatorMenu(dynamicRoutes, '*')
+console.log('menus', dynamicRoutes, setupLayouts(dynamicRoutes))
 useLocalStorage('menus', menus)
 const router = createRouter({
   history: createWebHistory(),
@@ -17,7 +27,7 @@ const router = createRouter({
       name: 'Login',
       component: () => import('@/views/login/index.vue')
     },
-    ...setupLayouts(dynamicRoutes),
+    setupLayouts(dynamicRoutes),
     ...staticRoute
   ]
 })
@@ -27,7 +37,7 @@ router.beforeEach((to, from, next) => {
   // 判断是否登录
   const { isLogin } = storeToRefs(useAuthStore())
   if (isLogin.value) {
-    to.name === 'Login' ? next({ path: '/' }) : next()
+    to.name === 'Login' ? next({ path: '/dashboard' }) : next()
   }
   else if (to.name === 'Login') {
     next()

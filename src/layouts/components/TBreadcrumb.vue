@@ -11,18 +11,17 @@ const breadList = ref<BreadcrumbItem[]>([])
 
 // 计算函数
 const isLastItem = (index: number) => index === breadList.value.length - 1
-const isHome = (route: RouteLocationMatched) => route.name === '/'
+const isHome = (route: RouteLocationMatched) => route.meta?.isHome
 
 // 获取面包屑数据
 function getBreadcrumb() {
   const { matched } = route
-
+  console.log('matched', matched)
   // 处理首页情况
   if (!matched.length || isHome(matched[0])) {
     breadList.value = []
     return
   }
-
   // 处理一级菜单和普通路由
   const isFirstLevel = matched[0].meta?.isFirstLevel
   const currentRoute = matched[matched.length - 1]
@@ -30,7 +29,7 @@ function getBreadcrumb() {
   breadList.value = isFirstLevel
     ? [{ path: currentRoute.path, meta: currentRoute.meta }]
     : matched.map(({ path, meta }) => ({ path, meta }))
-  breadList.value = breadList.value.filter(item => !item.meta?.isLayout)
+  breadList.value = breadList.value.filter(item => item.meta)
 }
 
 // 处理面包屑点击

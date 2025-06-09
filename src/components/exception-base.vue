@@ -26,7 +26,7 @@ const iconMap: Record<ExceptionType, Component> = {
 <template>
   <div class="box-border h-screen w-screen flex flex-col items-center justify-center gap-10px p-48">
     <n-icon :size="800" :component="iconMap[type]" />
-    <router-link :to="{ path: '/' }">
+    <router-link :to="{ path: '/dashboard' }">
       <n-button type="primary">
         返回首页
       </n-button>

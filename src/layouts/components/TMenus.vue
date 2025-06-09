@@ -3,7 +3,7 @@ import { menus } from '@/router'
 import { RouteListener } from '@/utils'
 import { set } from '@vueuse/core'
 
-const defaultPath = ref('/')
+const defaultPath = ref('/dashboard')
 const defaultExpandKeys = ref<string[]>([])
 
 onMounted(() => {

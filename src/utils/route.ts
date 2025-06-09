@@ -82,7 +82,7 @@ export function generatorMenu(routerMap: RouteRecordRaw[], ...permissionList: st
  * @param path 需要重定向的路由path
  */
 export function cleanseRedirect(path: string) {
-  return ['/', '/login'].includes(path) ? {} : { redirect: path }
+  return ['/dashboard', '/login'].includes(path) ? {} : { redirect: path }
 }
 
 /**

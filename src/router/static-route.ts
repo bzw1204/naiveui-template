@@ -1,5 +1,4 @@
 export default [
-
   {
     name: 'exception',
     path: '/exception',

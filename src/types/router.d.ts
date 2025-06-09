@@ -24,6 +24,7 @@ declare module 'vue-router' {
     title: string
     icon?: Raw<Component>
     order?: number
+    isHome?: boolean
     isLayout?: boolean
     cache?: boolean
     routeType?: RouteType // 路由类型

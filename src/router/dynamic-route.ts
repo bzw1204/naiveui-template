@@ -9,7 +9,7 @@ export default function () {
   // 导入所有路由Meta配置
   const modules = import.meta.glob<RouteMeta>('../views/**/meta.ts', { eager: true, import: 'default' })
   const routes: RouteRecordRaw[] = Object.entries(modules).map(([key, value]) => {
-    const path = key.match(/\/views(.*?)\/meta\.ts/)![1] || '/'
+    const path = key.match(/\/views(.*?)\/meta\.ts/)![1] || '/dashboard'
     const componentKey = key.replace(/meta.ts/, 'index.vue')
     const namePattern = key.match(/\/views\/(.*?)\/meta\.ts/)
     const name = namePattern && namePattern![1].replace(/\//g, '-') || 'Index'
