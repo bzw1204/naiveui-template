@@ -1,4 +1,4 @@
-<script lang="ts" setup name="About">
+<script lang="ts" setup name="About" vapor>
 import packageInfo from '../../../package.json'
 
 const { version, dependencies, devDependencies } = packageInfo

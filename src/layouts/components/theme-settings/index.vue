@@ -1,4 +1,4 @@
-<script setup lang="ts" name="ThemeSettings">
+<script setup lang="ts" name="ThemeSettings" vapor>
 import type { IThemeColor } from 'color-kit'
 import { set, useCssVar } from '@vueuse/core'
 import { ColorPicker } from 'vue-color-kit'

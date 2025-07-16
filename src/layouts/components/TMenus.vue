@@ -1,4 +1,4 @@
-<script setup lang="ts" name="TMenus">
+<script setup lang="ts" name="TMenus" vapor>
 import { menus } from '@/router'
 import { RouteListener } from '@/utils'
 import { set } from '@vueuse/core'

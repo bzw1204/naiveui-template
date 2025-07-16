@@ -6,7 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
-import IconsResolver from 'unplugin-icons/resolver'
+// import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
@@ -47,7 +47,7 @@ export default defineConfig({
       printUrl: false
     }),
     vueJsx(),
-    Markdown({ }),
+    Markdown({}),
     MetaLayouts(),
     // VueDevTools(),
     VueSetupExtend(),
@@ -55,7 +55,8 @@ export default defineConfig({
     Icons({
       autoInstall: false,
       customCollections: {
-        custom: FileSystemIconLoader('src/assets/icons')
+        color: FileSystemIconLoader('src/assets/color'),
+        local: FileSystemIconLoader('src/assets/icons', svg => svg.replace(/fill=".*"/, 'fill="currentColor"'))
       }
     }),
     AutoImport({
@@ -81,7 +82,10 @@ export default defineConfig({
       dts: 'src/types/components.d.ts',
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      resolvers: [NaiveUiResolver(), XNaiveUIResolver(), IconsResolver({ prefix: false, customCollections: ['custom', 'formula'] })]
+      resolvers: [
+        NaiveUiResolver(),
+        XNaiveUIResolver()
+      ]
     })
   ]
 })

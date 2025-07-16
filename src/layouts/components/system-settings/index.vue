@@ -1,4 +1,4 @@
-<script setup lang="ts" name="SystemSettings">
+<script setup lang="ts" name="SystemSettings" vapor>
 const visible = defineModel<boolean>()
 </script>
 

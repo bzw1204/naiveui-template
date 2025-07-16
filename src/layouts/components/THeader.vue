@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import ThemeToggleButton from '@/components/theme-toggle/index.vue'
 import { cleanseRedirect } from '@/utils'
 import { TBreadcrumb } from '.'

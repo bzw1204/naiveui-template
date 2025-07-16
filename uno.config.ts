@@ -10,14 +10,15 @@ export default defineConfig({
     }),
     presetWind3(),
     presetIcons({
-      autoInstall: true,
+      autoInstall: false,
       extraProperties: {
         display: 'inline-block',
         width: '1em',
         height: '1em'
       },
       collections: {
-        custom: FileSystemIconLoader('src/assets/icons', svg => svg.replace(/fill=".*"/, 'fill="currentColor"'))
+        color: FileSystemIconLoader('src/assets/color'),
+        local: FileSystemIconLoader('src/assets/icons', svg => svg.replace(/fill=".*"/, 'fill="currentColor"'))
       }
     }),
     presetAttributify()

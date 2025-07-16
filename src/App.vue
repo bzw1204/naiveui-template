@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import type { GlobalThemeOverrides } from 'naive-ui'
 import { RouteListener } from '@/utils/route'
 import { set } from '@vueuse/core'

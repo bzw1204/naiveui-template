@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import type { Raw } from 'vue'
 import { RouteListener } from '@/utils'
 

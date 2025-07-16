@@ -1,9 +1,4 @@
 <script lang="ts" setup name="ExceptionBase">
-import type { Component } from 'vue'
-import NoPermissionIcon from '~icons/custom/no-permission'
-import NotFoundIcon from '~icons/custom/not-found'
-import ServiceErrorIcon from '~icons/custom/service-error'
-
 type ExceptionType = 403 | 404 | 500
 interface IProps {
   /**
@@ -16,16 +11,16 @@ interface IProps {
   type?: ExceptionType
 }
 const { type = 404 } = defineProps<IProps>()
-const iconMap: Record<ExceptionType, Component> = {
-  403: NoPermissionIcon,
-  404: NotFoundIcon,
-  500: ServiceErrorIcon
+const iconMap: Record<ExceptionType, string> = {
+  403: 'i-color:not-permission',
+  404: 'i-color:not-found',
+  500: 'i-color:service-error'
 }
 </script>
 
 <template>
   <div class="box-border h-screen w-screen flex flex-col items-center justify-center gap-10px p-48">
-    <n-icon :size="800" :component="iconMap[type]" />
+    <span class="text-800" :class="iconMap[type]" />
     <router-link :to="{ path: '/dashboard' }">
       <n-button type="primary">
         返回首页

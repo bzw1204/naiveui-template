@@ -44,7 +44,7 @@ function handleLogin() {
     <n-flex class="m-auto h-500 w-900 shadow-lg" :wrap="false" :size="0">
       <!-- 左侧视觉区域 -->
       <n-flex vertical justify="center" align="center" class="box-border h-500 w-400 overflow-hidden from-[var(--info-color)] to-[var(--primary-color)] bg-gradient-to-br p-30 text-white">
-        <div class="i-custom:logo text-180 text-[#000] font-bold" />
+        <div class="i-local:logo text-180 text-[#000] font-bold" />
         <div class="text-28 text-#000 font-bold">
           Naive Admin
         </div>

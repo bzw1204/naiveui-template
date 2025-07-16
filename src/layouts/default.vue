@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import { RouteListener } from '@/utils'
 import { THeader, TMenus } from '@layout/components'
 import { createReusableTemplate, set } from '@vueuse/core'
@@ -44,7 +44,7 @@ const contentClass = computed(() => {
     >
       <n-flex class="h-screen" vertical :size="0">
         <n-flex :wrap="false" inline class="box-border h-[var(--header-height)] p-10">
-          <span class="i-custom-logo text-35 text-primary" />
+          <span class="i-local:logo text-35 text-primary" />
           <div class="h-auto flex items-center text-nowrap text-18 font-bold">
             {{ projectName }}
           </div>
