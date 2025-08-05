@@ -1,15 +1,16 @@
-<script setup lang="ts">
+<script setup lang="ts" vapor>
 import type { GlobalThemeOverrides } from 'naive-ui'
-import { RouteListener } from '@/utils/route'
 import { set } from '@vueuse/core'
 import { darkTheme } from 'naive-ui'
+import { RouteListener } from '@/utils/route'
 
-const { isDark, name, primaryColor } = storeToRefs(useSettingStore())
+const settingStore = useSettingsStore()
+const { theme, name } = storeToRefs(settingStore)
 const title = ref(name.value)
 useHead({ title: () => title.value })
 const themes = computed<GlobalThemeOverrides>(() => ({
   common: {
-    primaryColor: primaryColor.value
+    ...settingStore.themeColors
   }
 }))
 onMounted(() => {
@@ -28,7 +29,7 @@ onUnmounted(() => {
 
 <template>
   <!-- 调整 naive-ui 的字重配置 -->
-  <n-config-provider :theme="isDark ? darkTheme : null" :theme-overrides="themes">
+  <n-config-provider :theme="theme === 'dark' ? darkTheme : null" :theme-overrides="themes">
     <naive-provider>
       <router-view />
     </naive-provider>

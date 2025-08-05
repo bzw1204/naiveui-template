@@ -1,9 +1,14 @@
-import type { IAuth } from 'store-types'
+import type { IAuth } from 'auth'
 
 const useAuthStore = defineStore('auth', {
   state: (): IAuth => ({
     token: '',
-    permissions: []
+    permissions: [],
+    useInfo: {
+      id: 0,
+      account: '',
+      mobile: ''
+    }
   }),
   getters: {
     isLogin: state => state.token !== ''

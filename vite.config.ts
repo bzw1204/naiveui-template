@@ -5,70 +5,85 @@ import Vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-// import { FileSystemIconLoader } from 'unplugin-icons/loaders'
-import IconsResolver from 'unplugin-icons/resolver'
-// import Icons from 'unplugin-icons/vite'
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+// import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig } from 'vite'
 import { VueMcp } from 'vite-plugin-vue-mcp'
-// import VueDevTools from 'vite-plugin-vue-devtools'
 import MetaLayouts from 'vite-plugin-vue-meta-layouts'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    hmr: {
+      overlay: false,
+    },
+    proxy: {
+      '/api': {
+        // target: 'http://10.11.25.229:9898',
+        // target: 'http://120.77.32.249',
+        target: 'https://box-ctrl.cnns.net',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
+    },
+  },
   resolve: {
     alias: [
       {
         find: '@',
-        replacement: resolve(__dirname, 'src')
+        replacement: resolve(__dirname, 'src'),
       },
       {
         find: '@layout',
-        replacement: resolve(__dirname, 'src/layouts')
+        replacement: resolve(__dirname, 'src/layouts'),
       },
       {
         find: '@assets',
-        replacement: resolve(__dirname, 'src/assets')
-      }
-    ]
+        replacement: resolve(__dirname, 'src/assets'),
+      },
+    ],
   },
   plugins: [
     Vue({
-      include: [/\.vue$/, /\.md$/]
+      include: [/\.vue$/, /\.md$/],
     }),
     VueMcp({
-      printUrl: false
+      printUrl: false,
     }),
     vueJsx(),
-    Markdown({ }),
+    Markdown({}),
     MetaLayouts(),
     // VueDevTools(),
     VueSetupExtend(),
     UnoCSS(),
-    // Icons({
-    //   autoInstall: false,
-    //   customCollections: {
-    //     custom: FileSystemIconLoader('src/assets/icons')
-    //   }
-    // }),
+    Icons({
+      autoInstall: false,
+      customCollections: {
+        color: FileSystemIconLoader('src/assets/color'),
+        local: FileSystemIconLoader('src/assets/icons', svg => svg.replace(/fill=".*"/, 'fill="currentColor"')),
+      },
+    }),
     AutoImport({
       imports: [
         'vue',
         'vue-router',
         'pinia',
         {
-          '@vueuse/core': ['useVModel', 'useVModels', 'useDebounceFn', 'useStorage', 'useIntervalFn', 'useToggle']
+          '@vueuse/core': ['useVModel', 'useVModels', 'useDebounceFn', 'useStorage', 'useIntervalFn', 'useToggle'],
         },
         {
-          'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar']
+          'naive-ui': ['useDialog', 'useMessage', 'useNotification', 'useLoadingBar'],
         },
-        unheadVueComposablesImports
+        unheadVueComposablesImports,
       ],
       dirs: ['src/store'],
       include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
-      dts: 'src/types/auto-imports.d.ts'
+      dts: 'src/types/auto-imports.d.ts',
     }),
     Components({
       // allow auto load markdown components under `./src/components/`
@@ -76,7 +91,10 @@ export default defineConfig({
       dts: 'src/types/components.d.ts',
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      resolvers: [NaiveUiResolver(), XNaiveUIResolver(), IconsResolver({ prefix: false, customCollections: ['custom', 'formula'] })]
-    })
-  ]
+      resolvers: [
+        NaiveUiResolver(),
+        XNaiveUIResolver(),
+      ],
+    }),
+  ],
 })

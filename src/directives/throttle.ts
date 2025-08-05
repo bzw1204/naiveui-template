@@ -18,11 +18,10 @@ const throttle: Directive = {
   mounted(el: ElType, binding: DirectiveBinding) {
     const delay = binding.arg ? Number(binding.arg) : 1000
     if (typeof binding.value !== 'function') {
-      // eslint-disable-next-line no-throw-literal
-      throw 'callback must be a function'
+      throw new Error('v-throttle: callback must be a function')
     }
     let timer: NodeJS.Timeout | null = null
-    el.__handleClick__ = function () {
+    el.__handleClick__ = () => {
       if (timer) {
         clearTimeout(timer)
       }
@@ -38,7 +37,7 @@ const throttle: Directive = {
   },
   beforeUnmount(el: ElType) {
     el.removeEventListener('click', el.__handleClick__)
-  }
+  },
 }
 
 export default throttle

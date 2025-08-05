@@ -5,4 +5,7 @@ interface Window {
   $notification?: import('naive-ui').NotificationProviderInst
   $spin: () => void
   $closeSpin: () => void
+  bindEnterEvent: (callback: () => void) => void
+  unbindEnterEvent: (callback: () => void) => void
+  $ipc: import('mitt').Emitter
 }

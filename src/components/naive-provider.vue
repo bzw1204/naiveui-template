@@ -1,4 +1,5 @@
 <script setup lang="ts" name="NaiveProvider">
+import mitt from 'mitt'
 import { useDialog, useLoadingBar, useMessage, useNotification } from 'naive-ui'
 import { defineComponent, h } from 'vue'
 
@@ -9,8 +10,24 @@ function registerNaiveTools() {
   window.$dialog = useDialog()
   window.$message = useMessage()
   window.$notification = useNotification()
-  window.$spin = () => (showSpin.value = true)
-  window.$closeSpin = () => (showSpin.value = false)
+  window.$spin = () => { showSpin.value = true }
+  window.$closeSpin = () => { showSpin.value = false }
+  window.bindEnterEvent = (callback: () => void) => {
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        callback()
+      }
+    })
+  }
+
+  window.unbindEnterEvent = (callback: () => void) => {
+    document.removeEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.keyCode === 13) {
+        callback()
+      }
+    })
+  }
+  window.$ipc = mitt()
 }
 
 const NaiveProviderContent = defineComponent({

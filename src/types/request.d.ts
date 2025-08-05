@@ -1,7 +1,7 @@
 declare module 'alova-request' {
   interface R<T> {
-    code: number
-    message: string
+    err_no: number
+    msg: string
     data: T
   }
 }

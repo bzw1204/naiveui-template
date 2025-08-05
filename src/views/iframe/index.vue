@@ -14,14 +14,15 @@ onMounted(() => {
   })
   nextTick(() => {
     const iframe = unref(frameRef)
-    if (!iframe) return
+    if (!iframe) {
+      return
+    }
     const _frame = iframe as any
     if (_frame.attachEvent) {
       _frame.attachEvent('onload', () => {
         loading.value = false
       })
-    }
-    else {
+    } else {
       iframe.onload = () => {
         loading.value = false
       }

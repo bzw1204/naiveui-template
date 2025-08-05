@@ -1,106 +1,163 @@
 <script setup lang="ts">
-import { RouteListener } from '@/utils'
-import { THeader, TMenus } from '@layout/components'
-import { createReusableTemplate, set } from '@vueuse/core'
-import TTabs from './components/TTabs.vue'
+import type { MenuOption } from 'naive-ui'
+import { ProLayout, useLayoutMenu } from 'pro-naive-ui'
+import { ThemeToggle } from '@/components'
+import { menus } from '@/router'
+import {
+  BackTop,
+  Breadcrumb,
+  CollapaseButton,
+  Logo,
+  MobileDrawer,
+  // Notices,
+  // Search,
+  // Setting,
+  TabBar,
+  ThemeSettings,
+  UserCenter
+} from './components'
+import Content from './Content.vue'
 
-const settingStore = useSettingStore()
-const { name, menuWidth, showTabs } = storeToRefs(settingStore)
-const [DefineSiderTemplate, ReuseSiderTemplate] = createReusableTemplate<{
-  projectName?: string
-}>()
-const keepAlive = ref<string[]>([])
-RouteListener.on((t) => {
-  if (t.meta.cache) {
-    set(keepAlive, [...new Set(keepAlive.value), t.name])
-  }
-})
+const route = useRoute()
+const settingStore = useSettingsStore()
+const themeSettings = useTemplateRef<InstanceType<typeof ThemeSettings>>('themeSettings')
+const { layoutType, sider, tab, isMobile } = storeToRefs(settingStore)
 
-const layoutStyle = computed(() => {
-  const s = showTabs.value ? '45px' : '0px'
-  return {
-    '--header-height': '54px',
-    '--tabs-height': '35px',
-    '--content-height': `calc(100vh - var(--header-height) - ${s})`,
-    '--content-real-height': `calc(var(--content-height) - ${showTabs.value ? '10px' : '20px'}) `
-  }
+const {
+  layout,
+  activeKey
+} = useLayoutMenu({
+  mode: layoutType,
+  accordion: true,
+  menus: menus as unknown as MenuOption[]
 })
-const contentClass = computed(() => {
-  return `px-15 ${showTabs.value ? 'pb-10' : 'py-10'} box-border`
-})
+watch(() => route.path, (value: string) => {
+  activeKey.value = value
+}, { immediate: true })
+// 移动端抽屉控制
+const showMobileDrawer = ref(false)
+const hidenCollapaseButton = computed(() => ['horizontal'].includes(layoutType.value) || isMobile)
 </script>
 
 <template>
-  <!-- 定义左侧菜单模板 -->
-  <DefineSiderTemplate v-slot="{ projectName }">
-    <n-layout-sider
-      :collapsed-width="55"
-      collapse-mode="width"
-      :width="menuWidth"
-      :native-scrollbar="false"
-      show-trigger="bar"
-      bordered
-      class="h-screen"
-    >
-      <n-flex class="h-screen" vertical :size="0">
-        <n-flex :wrap="false" inline class="box-border h-[var(--header-height)] p-10">
-          <span class="i-custom-logo text-35 text-primary" />
-          <div class="h-auto flex items-center text-nowrap text-18 font-bold">
-            {{ projectName }}
-          </div>
-        </n-flex>
-        <n-scrollbar class="h-[var(--content-height)] max-h-[var(--content-height)]">
-          <TMenus />
-        </n-scrollbar>
-      </n-flex>
-    </n-layout-sider>
-  </DefineSiderTemplate>
-  <n-layout
-    has-sider
-    position="absolute"
-    :native-scrollbar="false"
+  <ProLayout
+    v-model:collapsed="sider.collapsed"
+    :mode="layoutType"
+    :is-mobile="isMobile"
+    :show-logo="!isMobile"
+    :show-footer="false"
+    :show-tabbar="tab.visible"
+    nav-fixed
+    show-nav
+    show-sidebar
+    :nav-height="54"
+    :tabbar-height="35"
+    :sidebar-width="sider.width"
+    :sidebar-collapsed-width="sider.collapsedWidth"
     class="wh-screen"
-    :style="layoutStyle"
+    header-class="h-[var(--header-height)] box-border"
   >
-    <!-- 菜单 -->
-    <ReuseSiderTemplate :project-name="name" />
-    <n-layout class="h-screen w-full">
-      <!-- 头部 -->
-      <THeader />
-      <TTabs v-show="showTabs" />
-      <!-- 内容区域 -->
-      <n-layout-content
-        embedded
-        :native-scrollbar="false"
-        class="h-[var(--content-height)]"
-        :content-class="contentClass"
-      >
-        <router-view v-slot="{ Component }">
-          <transition name="fade-slide" mode="out-in" appear>
-            <keep-alive :include="keepAlive">
-              <component :is="Component" />
-            </keep-alive>
-          </transition>
-        </router-view>
-      </n-layout-content>
-    </n-layout>
-  </n-layout>
+    <template #logo>
+      <Logo />
+    </template>
+
+    <template #nav-left>
+      <template v-if="isMobile">
+        <Logo />
+      </template>
+
+      <template v-else>
+        <div v-if="settingStore.breadcrumbVisible || !hidenCollapaseButton" class="h-full flex-y-center gap-10 pl-5">
+          <CollapaseButton v-if="hidenCollapaseButton" />
+          <Breadcrumb v-if="settingStore.breadcrumbVisible" />
+        </div>
+      </template>
+    </template>
+
+    <template #nav-center>
+      <div class="h-full flex-y-center gap-1">
+        <n-menu
+          v-if="settingStore.showHorizontalMenu"
+          :collapsed-width="sider.collapsedWidth"
+          :collapsed-icon-size="22"
+          v-bind="layout.horizontalMenuProps"
+        />
+      </div>
+    </template>
+
+    <template #nav-right>
+      <div class="h-full flex-y-center gap-1 pr-10">
+        <!-- 移动端：只显示菜单按钮 -->
+        <template v-if="isMobile">
+          <n-button quaternary @click="showMobileDrawer = true">
+            <template #icon>
+              <div class="i-carbon:menu" />
+            </template>
+          </n-button>
+        </template>
+
+        <!-- 桌面端：显示完整功能组件 -->
+        <template v-else>
+          <n-flex align="center">
+            <!-- 主题模式 -->
+            <ThemeToggle />
+            <!-- 系统设置 -->
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button
+                  quaternary
+                  type="default"
+                  :focusable="false"
+                  size="small"
+                  @click="() => themeSettings?.show()"
+                >
+                  <template #icon>
+                    <div class="i-carbon:Settings" />
+                  </template>
+                </n-button>
+              </template>
+              系统设置
+            </n-tooltip>
+            <!-- 用户信息 -->
+            <UserCenter />
+          </n-flex>
+        </template>
+      </div>
+    </template>
+
+    <template #sidebar>
+      <n-menu
+        :collapsed-width="sider.collapsedWidth"
+        :collapsed-icon-size="22"
+        v-bind="layout.verticalMenuProps"
+      />
+    </template>
+
+    <template #sidebar-extra>
+      <n-scrollbar class="flex-[1_0_0]">
+        <n-menu
+          v-bind="layout.verticalExtraMenuProps"
+          :collapsed-width="sider.collapsedWidth"
+          :collapsed-icon-size="22"
+        />
+      </n-scrollbar>
+    </template>
+
+    <template #tabbar>
+      <TabBar />
+    </template>
+
+    <Content />
+    <BackTop />
+
+    <!-- 移动端功能抽屉 -->
+    <MobileDrawer v-model:show="showMobileDrawer" @show-setting="() => themeSettings?.show()">
+      <n-menu
+        v-bind="layout.verticalMenuProps"
+        :collapsed-width="sider.collapsedWidth"
+        :collapsed-icon-size="22"
+      />
+    </MobileDrawer>
+  </ProLayout>
+  <ThemeSettings ref="themeSettings" />
 </template>
-
-<style lang="less">
-/* transition fade-slide */
-.fade-slide-leave-active,
-.fade-slide-enter-active {
-  transition: all 0.3s;
-}
-
-.fade-slide-enter-from {
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-</style>

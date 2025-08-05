@@ -1,108 +1,13 @@
 import type { Emitter, EventType, Handler } from 'mitt'
-import type { LinkProps, MenuProps, RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
+import type { MenuOption } from 'naive-ui'
+import type { RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
+
 import mitt from 'mitt'
+import { h } from 'vue'
+import { RouterLink } from 'vue-router'
+import { convertRouteToTree, renderIcon } from '@/utils'
 
-export function convertToTree(data: RouteRecordRaw[]) {
-  const map: { [key: string]: RouteRecordRaw } = data.reduce((acc: { [key: string]: RouteRecordRaw }, item) => {
-    const key: string = item.path
-    acc[key] = item
-    return acc
-  }, {})
-  return data.reduce((result: RouteRecordRaw[], item) => {
-    const match = item.path.match(/(.+)\/[^\\/]+$/)
-    if (match) {
-      const parentPath = match[1]
-      const parent = map[parentPath]
-
-      if (parent) {
-        parent.children = parent.children || []
-        parent.children.push(item)
-      }
-    }
-    else {
-      result.push(item)
-    }
-
-    return result
-  }, [])
-}
-
-export function sortRoutes(routes: RouteRecordRaw[]) {
-  routes.sort((a, b) => {
-    if (a.meta && b.meta) {
-      return (a.meta.order ?? 0) - (b.meta.order ?? 0)
-    }
-    return 0
-  })
-  routes.forEach((x) => {
-    if (x.children) {
-      x.children = sortRoutes(x.children)
-    }
-  })
-  return routes
-}
-
-export function generatorMenu(routerMap: RouteRecordRaw[], ...permissionList: string[]): MenuProps[] {
-  function permissionIncludes(a: string[], b: string[]) {
-    return b.some((permission) => {
-      return a.includes(permission)
-    })
-  }
-  const sortRoute = sortRoutes(routerMap)
-  const permissionRoutes: MenuProps[] = recursion(sortRoute)
-  function recursion(routes: RouteRecordRaw[]): MenuProps[] {
-    const menus: MenuProps[] = []
-    routes.filter(x => !x.meta?.hidden).forEach((x) => {
-      const _permissions: string[] = (x.meta?.permissions as string[]) || []
-      const linkTarget = x.meta?.routeType === 'iframe' ? 'viewFrame' : '_blank'
-      const link = typeof x.meta?.link === 'string' ? { href: x.meta?.link, target: linkTarget } as LinkProps : x.meta?.link as LinkProps
-      const menu: MenuProps = {
-        label: x.meta!.title,
-        name: x.name || '',
-        key: x.path,
-        link,
-        routeType: x.meta?.routeType || 'route',
-        icon: x.meta?.icon
-      }
-      if (x.children) {
-        menu.children = recursion(x.children)
-      }
-      if (permissionList.includes('*') || permissionIncludes(permissionList, _permissions)) {
-        menus.push(menu)
-      }
-    })
-    return menus
-  }
-
-  return permissionRoutes.filter(x => x !== null)
-}
-
-/**
- * 净化Redirect
- * @param path 需要重定向的路由path
- */
-export function cleanseRedirect(path: string) {
-  return ['/', '/login'].includes(path) ? {} : { redirect: path }
-}
-
-/**
- * 校验路由权限
- *
- * @param route 待校验的路由
- */
-export function check(route: RouteRecordRaw) {
-  const permission = route.meta?.permission
-  if (!permission || permission?.includes('*')) {
-    return true
-  }
-  const { permissions } = storeToRefs(useAuthStore())
-  const _permission = Array.isArray(permission) ? permission : [permission]
-  return _permission.find(x => permissions.value.includes(x))
-}
-
-/**
- * 单独监听路由会浪费渲染性能。使用发布订阅模式去进行分发管理。
- */
+// 单独监听路由会浪费渲染性能。使用发布订阅模式去进行分发管理。
 export class RouteListener {
   latestRoute: RouteLocationNormalized | null = null
   emitter: Emitter<Record<EventType, unknown>> = mitt()
@@ -133,4 +38,78 @@ export class RouteListener {
     const instance = RouteListener.getInstance()
     instance.emitter.off(instance.key)
   }
+}
+
+export function sortRoutes(routes: RouteRecordRaw[]) {
+  // 简化排序逻辑 - 不需要检查 meta 存在性，因为使用了 ?? 操作符
+  routes.sort((a, b) => (a.meta?.order ?? 0) - (b.meta?.order ?? 0))
+
+  // 递归处理子路由，直接在 forEach 中处理
+  routes.forEach((route) => {
+    if (route.children?.length) {
+      sortRoutes(route.children)
+    }
+  })
+
+  return routes
+}
+
+/* 生成侧边菜单的数据 */
+export function createMenus(userRoutes: RouteRecordRaw[]) {
+  // filter menus that do not need to be displayed
+  const visibleMenus = userRoutes.filter(route => !(route.meta?.hide ?? false))
+  // generate side menu
+  const menus = transformAuthRoutesToMenus(visibleMenus)
+  const tree = convertRouteToTree<MenuOption, 'key', 'children'>(menus)
+  return tree
+}
+
+// render the returned routing table as a sidebar
+function transformAuthRoutesToMenus(userRoutes: RouteRecordRaw[]): MenuOption[] {
+  function renderMenu({ meta, path, children }: RouteRecordRaw): MenuOption {
+    const isDir = !meta?.menuType || meta?.menuType === 'page'
+    const menuItem: MenuOption = {
+      label: () => (isDir ? h(RouterLink, { to: { path } }, { default: () => meta?.title }) : meta?.title),
+      key: path,
+      icon: meta?.icon ? renderIcon(meta.icon) : undefined
+    }
+
+    // 处理子路由
+    if (children && children.length > 0) {
+      // 过滤掉隐藏的子路由
+      const visibleChildren = children.filter(child => !(child.meta?.hide ?? false))
+      if (visibleChildren.length > 0) {
+        menuItem.children = transformAuthRoutesToMenus(visibleChildren)
+      }
+    }
+
+    return menuItem
+  }
+  return sortRoutes(userRoutes)
+  // Filter out side menus without permission
+  // .filter(i => hasPermission(i.meta.permission))
+  //  Sort the menu according to the order size
+
+    // Convert to side menu data structure
+    .map(renderMenu)
+}
+/**
+ * 净化Redirect
+ * @param path 需要重定向的路由path
+ */
+export function cleanseRedirect(path: string) {
+  return ['/dashboard', '/login'].includes(path) ? {} : { redirect: path }
+}
+// 为父级菜单添加自动 redirect
+export function addRedirect<T extends RouteRecordRaw>(routes: T[]) {
+  routes.forEach((route) => {
+    if (route.children && route.children.length > 0) {
+      // 如果父级路由没有设置 redirect，则自动设置为第一个子路由
+      if (!route.redirect) {
+        route.redirect = route.children[0].path
+      }
+      // 递归处理子路由
+      addRedirect(route.children)
+    }
+  })
 }

@@ -6,7 +6,7 @@ interface Props {
   size?: 'small' | 'medium' | 'large'
 }
 const { normal = false, size = 'small' } = defineProps<Props>()
-const settingStore = useSettingStore()
+const settingStore = useSettingsStore()
 const isDark = useDark()
 async function toggleDark({ clientX, clientY }: MouseEvent) {
   function handler() {
@@ -44,10 +44,9 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
     <template #trigger>
       <n-button
         quaternary
-        :circle="!normal"
+        :circle="normal"
         :size="size"
         :focusable="false"
-        class="theme-toggle-btn"
         :title="isDark ? '切换到亮色模式' : '切换到暗色模式'"
         @click="toggleDark"
       >
@@ -72,22 +71,26 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.6s cubic-bezier(.4,0,.2,1);
+  transition: background 0.6s cubic-bezier(.4, 0, .2, 1);
 }
+
 .sun-anim {
-  animation: sun-appear 2s cubic-bezier(.4,0,.2,1);
+  animation: sun-appear 2s cubic-bezier(.4, 0, .2, 1);
 }
+
 @keyframes sun-appear {
   0% {
     transform: scale(0.7) rotate(-90deg);
     opacity: 0.2;
     filter: blur(2px);
   }
+
   60% {
     transform: scale(1.1) rotate(20deg);
     opacity: 1;
     filter: blur(0);
   }
+
   100% {
     transform: scale(1) rotate(0deg);
     opacity: 1;
@@ -96,19 +99,22 @@ async function toggleDark({ clientX, clientY }: MouseEvent) {
 }
 
 .moon-anim {
-  animation: moon-appear 4s cubic-bezier(.4,0,.2,1);
+  animation: moon-appear 4s cubic-bezier(.4, 0, .2, 1);
 }
+
 @keyframes moon-appear {
   0% {
     transform: scale(0.7) rotate(45deg);
     opacity: 0.2;
     filter: blur(2px);
   }
+
   60% {
     transform: scale(1.1) rotate(-10deg);
     opacity: 1;
     filter: blur(0);
   }
+
   100% {
     transform: scale(1) rotate(0deg);
     opacity: 1;

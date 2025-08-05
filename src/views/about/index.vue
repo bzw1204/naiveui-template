@@ -1,10 +1,15 @@
-<script lang="ts" setup name="About">
-import packageInfo from '../../../package.json'
+<script lang="ts" setup name="About" vapor>
+import packageInfo from '../../../package.json' with { type: 'json' }
 
-const { version, dependencies, devDependencies } = packageInfo
+const { version, dependencies, devDependencies, name } = packageInfo
 const dependenciesList = reactive<Record<string, string>[]>([])
 const devDependenciesList = reactive<Record<string, string>[]>([])
-const projectInfo: any = [
+interface ProjectInfo {
+  label: string
+  link: boolean
+  value: string
+}
+const projectInfo: ProjectInfo[] = [
   {
     label: '版本号',
     link: false,
@@ -18,22 +23,22 @@ const projectInfo: any = [
   {
     label: 'GitHub',
     link: true,
-    value: 'https://github.com/WANG-Fan0912/SnowAdmin'
+    value: 'https://github.com/bzw1204/naiveui-template.git'
   },
   {
     label: 'Gitee',
     link: true,
-    value: 'https://gitee.com/wang_fan_w/SnowAdmin'
+    value: 'git clone https://github.com/bzw1204/naiveui-template.git'
   },
   {
     label: '文档地址',
     link: true,
-    value: 'http://101.126.93.137:81/'
+    value: 'git clone https://github.com/bzw1204/naiveui-template.git'
   },
   {
     label: '预览地址',
     link: true,
-    value: 'http://101.126.93.137/#/login'
+    value: ''
   }
 ]
 onMounted(() => {
@@ -57,7 +62,7 @@ onMounted(() => {
 <template>
   <n-flex vertical>
     <n-card title="简介">
-      <p>SnowAdmin 一款基于 Vue、TypeScript、Vite5、Pinia、arco.design开源的后台管理框架，使用目前最新技术栈开发。</p>
+      <p>{{ name }} 一款基于 Vue、TypeScript、Vite5、Pinia、arco.design开源的后台管理框架，使用目前最新技术栈开发。</p>
       <p>融合了全新的UI框架，高度可自定义的主题功能使得用户可以根据自身需求轻松定制界面。</p>
       <p>代码全注释，可提供参考和学习。</p>
     </n-card>
