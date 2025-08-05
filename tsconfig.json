@@ -3,26 +3,15 @@
     "composite": true,
     "target": "ESNext",
     "jsx": "preserve",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "useDefineForClassFields": true,
     "baseUrl": ".",
     "module": "ESNext",
-    /* Bundler mode */
     "moduleResolution": "Bundler",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@layout/*": [
-        "src/layouts/*"
-      ],
-      "@assets": [
-        "src/assets/*"
-      ]
+      "@/*": ["src/*"],
+      "@layout/*": ["src/layouts/*"],
+      "@assets": ["src/assets/*"]
     },
     "resolveJsonModule": true,
     "types": [
@@ -34,7 +23,6 @@
       "@skit/x.naive-ui/types/volar.d.ts"
     ],
     "allowImportingTsExtensions": true,
-    /* Linting */
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
@@ -42,7 +30,8 @@
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true
   },
   "include": [
     "vite.config.ts",

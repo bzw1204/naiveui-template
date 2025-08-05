@@ -1,0 +1,41 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
+  "extends": [
+    "ultracite"
+  ],
+  "overrides": [
+    {
+      "includes": [
+        "src/**/*.vue",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off",
+            "useHookAtTopLevel": "off",
+            "noUndeclaredVariables": "off"
+          },
+          "suspicious": {
+            "noConsole": {
+              "level": "warn",
+              "options": {
+                "allow": [
+                  "log",
+                  "info",
+                  "warn",
+                  "error"
+                ]
+              }
+            }
+          },
+          "style": {
+            "useBlockStatements": "error"
+          }
+        }
+      }
+    }
+  ]
+}

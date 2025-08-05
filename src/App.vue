@@ -1,29 +1,29 @@
 <script setup lang="ts" vapor>
-import type { GlobalThemeOverrides } from 'naive-ui'
-import { RouteListener } from '@/utils/route'
-import { set } from '@vueuse/core'
-import { darkTheme } from 'naive-ui'
+import { set } from '@vueuse/core';
+import type { GlobalThemeOverrides } from 'naive-ui';
+import { darkTheme } from 'naive-ui';
+import { RouteListener } from '@/utils/route';
 
-const { isDark, name, primaryColor } = storeToRefs(useSettingStore())
-const title = ref(name.value)
-useHead({ title: () => title.value })
+const { isDark, name, primaryColor } = storeToRefs(useSettingStore());
+const title = ref(name.value);
+useHead({ title: () => title.value });
 const themes = computed<GlobalThemeOverrides>(() => ({
   common: {
-    primaryColor: primaryColor.value
-  }
-}))
+    primaryColor: primaryColor.value,
+  },
+}));
 onMounted(() => {
   RouteListener.on((currentRoute) => {
     // 更新标题为当前路由的标题
     if (currentRoute.meta?.title) {
-      set(title, currentRoute.meta.title)
+      set(title, currentRoute.meta.title);
     }
-  })
-})
+  });
+});
 
 onUnmounted(() => {
-  RouteListener.destroyed()
-})
+  RouteListener.destroyed();
+});
 </script>
 
 <template>
